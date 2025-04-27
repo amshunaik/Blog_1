@@ -1,0 +1,35 @@
+# ====== Build Stage ======
+FROM node:18 AS builder
+
+WORKDIR /app
+
+# Copy dependencies
+COPY package*.json ./
+
+# Install all dependencies (including dev)
+RUN npm install
+
+# Copy source files
+COPY . .
+
+# Optionally run build step (e.g., for TypeScript)
+# RUN npm run build
+
+# ====== Production Stage ======
+FROM node:18-slim
+
+WORKDIR /app
+
+# Copy only production dependencies from builder
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy app source (or compiled dist if built)
+COPY --from=builder /app ./
+
+# Expose the port
+EXPOSE 3005
+
+# Start the app
+CMD ["node", "server.js"]
+
