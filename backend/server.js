@@ -16,25 +16,26 @@ app.use((req, res, next) => {
   next();
 });
 const PORT=3005;
-const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY,
-  });
+// const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY,
+//   });
 connectDb();
 const generateSummary = async (content) => {
+  console.log("summary");
    
-    try {
-        const response = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: [
-              { role: 'system', content: 'You are an assistant that summarizes blog posts.' },
-              { role: 'user', content: content },
-            ],
-        });
-        const summary=response.choices[0].message.content.trim();
-        return summary;
+    // try {
+    //     const response = await openai.chat.completions.create({
+    //         model: 'gpt-3.5-turbo',
+    //         messages: [
+    //           { role: 'system', content: 'You are an assistant that summarizes blog posts.' },
+    //           { role: 'user', content: content },
+    //         ],
+    //     });
+    //     const summary=response.choices[0].message.content.trim();
+    //     return summary;
         
-        } catch (error) {
-          console.error('Error:', error);
-        }
+    //     } catch (error) {
+    //       console.error('Error:', error);
+    //     }
    
 };
 
